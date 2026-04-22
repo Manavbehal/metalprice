@@ -1,7 +1,16 @@
-const API_KEY = 'goldapi-e8c8bb35c9ec3de1653c9ce6c7741510-io';
-const BASE_URL = 'https://www.goldapi.io/api';
+import Config from 'react-native-config';
+
+const API_KEY = Config.GOLD_API_KEY;
+const BASE_URL = Config.GOLD_API_BASE_URL;
 
 export async function getMetalBySymbol(symbol: string): Promise<any> {
+  if (!API_KEY) {
+    throw new Error('Missing GOLD_API_KEY environment variable');
+  }
+  if (!BASE_URL) {
+    throw new Error('Missing GOLD_API_BASE_URL environment variable');
+  }
+
   const res = await fetch(`${BASE_URL}/${symbol}/USD`, {
     headers: { 'x-access-token': API_KEY },
   });
